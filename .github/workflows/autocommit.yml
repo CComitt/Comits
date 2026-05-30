@@ -23,7 +23,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
       - name: Commit
-        run: python autoCommit.py 500 --prefix "Job1" --workers 8
+        run: python3 autoCommit.py 500 --prefix "Job1" --workers 8
       - name: Push
         run: |
           git pull --rebase origin main
@@ -43,7 +43,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
       - name: Commit
-        run: python autoCommit.py 500 --prefix "Job2" --workers 8
+        run: python3 autoCommit.py 500 --prefix "Job2" --workers 8
       - name: Push
         run: |
           git pull --rebase origin main
@@ -63,7 +63,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
       - name: Commit
-        run: python autoCommit.py 500 --prefix "Job3" --workers 8
+        run: python3 autoCommit.py 500 --prefix "Job3" --workers 8
       - name: Push
         run: |
           git pull --rebase origin main
