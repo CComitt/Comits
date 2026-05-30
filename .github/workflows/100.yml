@@ -1,0 +1,61 @@
+name: Auto Commit
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  commit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.PAT_TOKEN }}
+          fetch-depth: 0
+
+      - name: Configure git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git remote set-url origin https://x-access-token:${{ secrets.PAT_TOKEN }}@github.com/${{ github.repository }}
+
+      - name: Fast import commits and push
+        run: |
+          PARENT=$(git rev-parse HEAD)
+          NOW=$(date +%s)
+          N=100000
+
+          python3 -c "
+          parent = '$PARENT'
+          now = $NOW
+          n = $N
+
+          msg = 'c 1'
+          print('commit refs/heads/main')
+          print('mark :1')
+          print(f'author Bot <bot@bot.com> {now} +0000')
+          print(f'committer Bot <bot@bot.com> {now} +0000')
+          print(f'data {len(msg)}')
+          print(msg)
+          print(f'from {parent}')
+          print()
+
+          for i in range(2, n + 1):
+              msg = f'c {i}'
+              print('commit refs/heads/main')
+              print(f'mark :{i}')
+              print(f'author Bot <bot@bot.com> {now + i} +0000')
+              print(f'committer Bot <bot@bot.com> {now + i} +0000')
+              print(f'data {len(msg)}')
+              print(msg)
+              print(f'from :{i - 1}')
+              print()
+          " | git fast-import --quiet
+
+          git reset --hard refs/heads/main
+          git push
