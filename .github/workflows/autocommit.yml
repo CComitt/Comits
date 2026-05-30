@@ -15,17 +15,15 @@ jobs:
       - uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
       - name: Configure git
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-      - name: Commit
-        run: python3 autoCommit.py 500 --prefix "Job1" --workers 8
-      - name: Push
+      - name: Commit and push
         run: |
+          for i in $(seq 1 500); do
+            git commit --allow-empty -m "Job1 $i"
+          done
           git pull --rebase origin main
           git push
 
@@ -35,17 +33,15 @@ jobs:
       - uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
       - name: Configure git
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-      - name: Commit
-        run: python3 autoCommit.py 500 --prefix "Job2" --workers 8
-      - name: Push
+      - name: Commit and push
         run: |
+          for i in $(seq 1 500); do
+            git commit --allow-empty -m "Job2 $i"
+          done
           git pull --rebase origin main
           git push
 
@@ -55,16 +51,14 @@ jobs:
       - uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
       - name: Configure git
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-      - name: Commit
-        run: python3 autoCommit.py 500 --prefix "Job3" --workers 8
-      - name: Push
+      - name: Commit and push
         run: |
+          for i in $(seq 1 500); do
+            git commit --allow-empty -m "Job3 $i"
+          done
           git pull --rebase origin main
           git push
